@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Notes</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .add-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .toggle-btn {
+            background: #333;
+            color: white;
+        }
+
+        .note {
+            background: #fafafa;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        #notesBox {
+            display: none; /* hidden by default */
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Smart Notes</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="title" placeholder="Enter title" required>
+
+        <textarea name="content" placeholder="Enter note content" required></textarea>
+
+        <button class="add-btn" type="submit">Add Note</button>
+    </form>
+
+    <button class="toggle-btn" onclick="toggleNotes()">
+        Show / Hide Notes
+    </button>
+
+    <div id="notesBox">
+        <h2>All Notes</h2>
+
+        {% for note in notes %}
+            <div class="note">
+                <h3>{{ note.title }}</h3>
+                <p>{{ note.content }}</p>
+            </div>
+        {% empty %}
+            <p>No notes found.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+<script>
+    function toggleNotes() {
+        const box = document.getElementById("notesBox");
+
+        if (box.style.display === "none" || box.style.display === "") {
+            box.style.display = "block";
+        } else {
+            box.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
